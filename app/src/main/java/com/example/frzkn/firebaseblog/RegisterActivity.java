@@ -59,7 +59,9 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     progressBar.setVisibility(View.INVISIBLE);
-                                    intentToMain();
+                                    startActivity(new Intent(RegisterActivity.this, AccountActivity.class));
+                                    finish();
+                                    //intentToMain();
 
                                 } else {
                                     String error = "Error:" + task.getException().getMessage();

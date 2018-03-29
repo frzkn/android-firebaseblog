@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_logout:
                 firebaseLogout();
+            case R.id.action_account:
+                startActivity(new Intent(MainActivity.this, AccountActivity.class));
             default:
                 return false;
         }
