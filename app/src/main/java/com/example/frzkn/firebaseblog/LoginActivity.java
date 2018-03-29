@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             } else {
                                 String error = task.getException().getMessage();
-                                Toast.makeText(LoginActivity.this, "Error: " + error, 0).show();
+                                Toast.makeText(LoginActivity.this, "Error: " + error, Toast.LENGTH_SHORT).show();
                                 loginProgressbar.setVisibility(View.INVISIBLE);
                             }
 
@@ -77,6 +77,17 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         });
+        loginRegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intentToRegister();
+            }
+        });
+    }
+
+    private void intentToRegister() {
+        startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+        finish();
     }
 
     @Override

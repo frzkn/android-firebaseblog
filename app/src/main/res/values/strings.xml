@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">Firebase Blog</string>
-    <string name="login_logo">Firebase Blog</string>
-    <string name="login_email">Email</string>
-    <string name="login_password">Password</string>
+    <string name="logo">Firebase Blog</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_confirm">Confirm Password</string>
     <string name="login_login_button">Login</string>
     <string name="login_register_button">Need an account?</string>
+    <string name="register_register_button">Create your Account</string>
+    <string name="register_login_button">Have an account?</string>
+    <string name="register_password_confirm">Confirm Password</string>
 </resources>
