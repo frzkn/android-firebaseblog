@@ -10,7 +10,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,18 +23,25 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountActivity extends AppCompatActivity {
     private Toolbar toolbar;
-    private Uri profilePhotoURI;
+    private Uri profilePhotoURI = null;
     private EditText accountName;
     private CircleImageView profilePhoto;
+    private Button accountSaveButton;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+        //Initialize
+        accountName = findViewById(R.id.account_profile_name);
+        accountSaveButton = findViewById(R.id.account_save_button);
         toolbar = findViewById(R.id.account_toolbar);
+        profilePhoto = findViewById(R.id.profile_photo);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Profile");
-        profilePhoto = findViewById(R.id.profile_photo);
+
+
         profilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,11 +51,27 @@ public class AccountActivity extends AppCompatActivity {
                     } else {
                         CropImage.activity()
                                 .setGuidelines(CropImageView.Guidelines.ON)
-                                .setAspectRatio(1,1)
+                                .setAspectRatio(1, 1)
                                 .start(AccountActivity.this);
                     }
 
                 }
+            }
+        });
+
+        accountSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = accountName.getText().toString();
+                if (TextUtils.isEmpty(name))
+                    Toast.makeText(AccountActivity.this, "Please enter your name", Toast.LENGTH_SHORT).show();
+
+                if (profilePhotoURI == null)
+                    Toast.makeText(AccountActivity.this, "Please keep a profile photo :) ", Toast.LENGTH_SHORT).show();
+                if (!TextUtils.isEmpty(name) && profilePhotoURI != null) {
+
+                }
+
             }
         });
 
