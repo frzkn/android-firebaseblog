@@ -77,4 +77,5 @@ public class MainActivity extends AppCompatActivity {
         //Intent will be cleared
         finish();
     }
+
 }

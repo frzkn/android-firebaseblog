@@ -1,7 +1,9 @@
 package com.example.frzkn.firebaseblog;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -12,10 +14,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountActivity extends AppCompatActivity {
     private Toolbar toolbar;
+    private Uri profilePhotoURI;
     private EditText accountName;
     private CircleImageView profilePhoto;
 
@@ -32,12 +38,15 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (ContextCompat.checkSelfPermission(AccountActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(AccountActivity.this, "Permission not granted", Toast.LENGTH_SHORT).show();
                         ActivityCompat.requestPermissions(AccountActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                    } else {
+                        CropImage.activity()
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .setAspectRatio(1,1)
+                                .start(AccountActivity.this);
                     }
-                    Toast.makeText(AccountActivity.this, "You already have Permission", Toast.LENGTH_SHORT).show();
-                }
 
+                }
             }
         });
 
@@ -45,8 +54,19 @@ public class AccountActivity extends AppCompatActivity {
 
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                profilePhotoURI = result.getUri();
+                profilePhoto.setImageURI(profilePhotoURI);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                Toast.makeText(AccountActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+        }
     }
 }
+
+
